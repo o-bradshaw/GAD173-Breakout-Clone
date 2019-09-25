@@ -1,0 +1,9 @@
+﻿  Main.cpp
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(23,23): error C2065:  'ballSize': undeclared identifier
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(27,22): warning C4244:  '=': conversion from 'int' to 'T', possible loss of data
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(27,22): warning C4244:         with
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(27,22): warning C4244:         [
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(27,22): warning C4244:             T=float
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(27,22): warning C4244:         ]
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(66,70): error C2065:  'ballSize': undeclared identifier
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(71,70): error C2065:  'ballSize': undeclared identifier
