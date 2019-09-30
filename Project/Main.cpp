@@ -4,6 +4,11 @@ using namespace std;
 
 int main()
 {
+	sf::Font font; //Font type
+	font.loadFromFile("arial.ttf"); //Loading the font file
+
+	int lives = 3;
+	
 	int windowX = 600; //Window width
 	int windowY = 600; //Window height
 	int speed = 15; //Movement Speed
@@ -21,12 +26,19 @@ int main()
 	paddle.setPosition(paddlePos); //Paddle spawn
 
 	sf::CircleShape ball(ballSize); //Create Ball
-	ball.setFillColor(sf::Color::White); //Set the colour
+	ball.setFillColor(sf::Color::Red); //Set the colour
 	sf::Vector2f ballPos = sf::Vector2f(paddlePos.x, paddlePos.y - paddleSize.y); //Set ball pos above paddle
 	sf::Vector2f velocity = sf::Vector2f(0.f, 0.f); //Setup velocity
 	velocity.x = rand() % 10; //Initial x will be random
 	velocity.y = -5; //Ball starts heading towards top of window
 	ball.setPosition(ballPos); //Ball spawn
+
+	sf::Text livesText;
+	livesText.setFont(font);
+	livesText.setString("Lives: ");
+	livesText.setCharacterSize(20);
+	livesText.setFillColor(sf::Color::White);
+	livesText.setPosition(sf::Vector2f(20.0f, 10.0f));
 	
 	//Code runs while window is open
 	while (window.isOpen())
@@ -77,6 +89,12 @@ int main()
 			velocity.y = -velocity.y;
 		}
 
+		if (ball.getPosition().y >= windowY)
+		{
+			ball.setPosition(ballPos);
+			lives--;
+		}
+
 		sf::Event event;
 		//Window Updating
 		while (window.pollEvent(event))
@@ -91,6 +109,7 @@ int main()
 		window.clear();
 		window.draw(paddle);
 		window.draw(ball);
+		window.draw(livesText);
 		window.display();
 	}
 
