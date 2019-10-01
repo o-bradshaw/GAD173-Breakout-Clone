@@ -2,12 +2,26 @@
 #include <iostream>
 using namespace std;
 
+class Bricks
+{
+	sf::RectangleShape brick; //Brick type
+
+	int brickX = 10; 
+	int brickY = 100;
+	
+	//Used in creation of bricks
+	void createBrick(int brickX, int brickY)
+	{
+		brick.setFillColor(sf::Color::Magenta); //Colour of bricks
+		brick.setSize(sf::Vector2f(40.0f, 20.0f)); //Size of bricks
+	}
+
+};
+
 int main()
 {
 	sf::Font font; //Font type
 	font.loadFromFile("arial.ttf"); //Loading the font file
-
-	int lives = 3;
 	
 	int windowX = 600; //Window width
 	int windowY = 600; //Window height
@@ -84,15 +98,10 @@ int main()
 			velocity.y = -velocity.y;
 		}
 
+		//Checks the bounds of ball against paddle - flip to 'bounce' off paddle
 		if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds()))
 		{
 			velocity.y = -velocity.y;
-		}
-
-		if (ball.getPosition().y >= windowY)
-		{
-			ball.setPosition(ballPos);
-			lives--;
 		}
 
 		sf::Event event;
