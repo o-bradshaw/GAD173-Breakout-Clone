@@ -1,108 +1,130 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Main.h"
 using namespace std;
-
-class Bricks
-{
-	sf::RectangleShape brick; //Brick type
-
-	int brickX = 10; 
-	int brickY = 100;
-	
-	//Used in creation of bricks
-	void createBrick(int brickX, int brickY)
-	{
-		brick.setFillColor(sf::Color::Magenta); //Colour of bricks
-		brick.setSize(sf::Vector2f(40.0f, 20.0f)); //Size of bricks
-	}
-
-};
 
 int main()
 {
-	sf::Font font; //Font type
-	font.loadFromFile("arial.ttf"); //Loading the font file
-	
-	int windowX = 600; //Window width
-	int windowY = 600; //Window height
-	int speed = 15; //Movement Speed
-	int ballSize = 10; //Size of ball radius
+	Game myGame;
 
-	sf::Vector2f paddleSize = sf::Vector2f(100.f, 30.f); //Size of the shape
-	sf::Vector2f paddlePos = sf::Vector2f((windowX / 2) - (paddleSize.x / 2), (windowY) - (paddleSize.y + 20)); //Bottom centre of window
-	sf::Color colour = sf::Color(0,0,255,255); //0-255 rgba - Custom Colour
+	if (!myGame.Start())
+	{
+		return EXIT_FAILURE;
+	}
+	return myGame.Update();
+	return 0;
+}
 
-	sf::RenderWindow window(sf::VideoMode(windowX, windowY), "Window"); //Created a render window
-	window.setFramerateLimit(60);
+Brick brick; //Define a Brick object
+vector<Brick> Bricks(15, Brick(brick)); //create a vector(list) of bricks
 
-	sf::RectangleShape paddle(paddleSize); //Create Paddle
-	paddle.setFillColor(colour); //Set the colour
-	paddle.setPosition(paddlePos); //Paddle spawn
+bool Game::Start() //Setting up the game
+{
+	sf::VideoMode vMode(windowWidth, windowHeight); //Videomode X, Y
+	window.setFramerateLimit(60); //Set framerate limit
+	window.create(vMode, "Breakout"); //Create window
 
-	sf::CircleShape ball(ballSize); //Create Ball
-	ball.setFillColor(sf::Color::Red); //Set the colour
-	sf::Vector2f ballPos = sf::Vector2f(paddlePos.x, paddlePos.y - paddleSize.y); //Set ball pos above paddle
-	sf::Vector2f velocity = sf::Vector2f(0.f, 0.f); //Setup velocity
-	velocity.x = rand() % 10; //Initial x will be random
-	velocity.y = -5; //Ball starts heading towards top of window
-	ball.setPosition(ballPos); //Ball spawn
+	//Setup Bricks
+	for (int i = 0; i < 15; i++)
+	{
+		Bricks[i].brickShape.setSize(sf::Vector2f(70, 30));
+		Bricks[i].brickShape.setFillColor(sf::Color(rand() % 255, rand() % 255, rand() % 255));
+		if (i <= 5)
+		{
+			Bricks[i].brickShape.setPosition(75 * i, 0);
+		}
+		else if (i > 10)
+		{
+			Bricks[i].brickShape.setPosition(75 * (i - 11), 60);
+		}
+		else if (i > 5)
+		{
+			Bricks[i].brickShape.setPosition(75 * (i - 6), 10);
+		}
+	}
 
-	sf::Text livesText;
-	livesText.setFont(font);
-	livesText.setString("Lives: ");
-	livesText.setCharacterSize(20);
-	livesText.setFillColor(sf::Color::White);
-	livesText.setPosition(sf::Vector2f(20.0f, 10.0f));
-	
+	//Setup window borders
+	top.setSize(sf::Vector2f(windowWidth, 1));
+	top.setPosition(0, 0);
+	top.setFillColor(sf::Color::Black);
+	bottom.setSize(sf::Vector2f(windowWidth, 1));
+	bottom.setPosition(sf::Vector2f(0, windowHeight - 1));
+	bottom.setFillColor(sf::Color::Black);
+	left.setSize(sf::Vector2f(1, windowHeight));
+	left.setPosition(0, 0);
+	left.setFillColor(sf::Color::Black);
+	right.setSize(sf::Vector2f(1, windowHeight));
+	right.setPosition(sf::Vector2f(windowWidth - 1, 0));
+	right.setFillColor(sf::Color::Black);
+
+	return true;
+}
+
+int Game::Update()
+{
+	Paddle paddle;
+	paddle.paddleShape.setSize(sf::Vector2f(120.f, 15.f));
+	paddle.paddleShape.setFillColor(sf::Color::Blue);
+	paddle.paddleShape.setPosition(windowWidth / 2, windowHeight - (windowHeight / 5));
+
+	Ball ball;
+	ball.ballShape.setRadius(12.f);
+	ball.ballShape.setPosition(paddle.paddleShape.getPosition().x, paddle.paddleShape.getPosition().y - 30);
+	ball.ballShape.setFillColor(sf::Color::Red);
+
+	ball.ballVelocity.x = 0.1;
+	ball.ballVelocity.y = 0.1;
+
 	//Code runs while window is open
 	while (window.isOpen())
 	{
-		//Check left button pressed
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		//Paddle movement based on mouse position
+		if (sf::Mouse::getPosition(window).x > 0 && sf::Mouse::getPosition(window).x < (window.getSize().x - paddle.paddleShape.getSize().x/2))
 		{
-			//Move left
-			paddlePos.x -= speed;
-			//Outside window left - come back
-			if (paddlePos.x <= 0)
+			paddle.paddleShape.setPosition(sf::Mouse::getPosition(window).x - paddle.paddleShape.getSize().x/2, paddle.paddleShape.getPosition().y);
+		}
+
+		//Ball and Border Collision
+		if (top.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()))
+		{
+			ball.Bounce(0);
+		}
+		if (bottom.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()))
+		{
+			ball.Bounce(0);
+			lives -= 1;
+			if (lives < 1)
 			{
-				paddlePos.x = 0;
+				//End Game
+				return 1;
 			}
-			//Update the pos of paddle
-			paddle.setPosition(paddlePos);
-
 		}
-		//Check right button pressed
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		if (left.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()) || right.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()))
 		{
-			//Move right
-			paddlePos.x += speed;
-			//Outside window right - come back
-			if (paddlePos.x >= windowX - paddleSize.x)
+			ball.Bounce(1);
+		}
+
+		//Ball and Paddle Collision
+		if (paddle.paddleShape.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()))
+		{
+			ball.Bounce(0);
+		}
+
+		//Ball and brick collision
+		for (int i = 0; i < Bricks.size(); i++)
+		{
+			if (Bricks[i].brickShape.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()))
 			{
-				paddlePos.x = windowX - paddleSize.x;
+				ball.Bounce(0);
+				Bricks[i].brickShape.setPosition(1200, 0);
+				score += 1;
+				ball.ballVelocity = ball.ballVelocity * 1.03f; //increasing speed of ball
 			}
-			//Update the pos of paddle
-			paddle.setPosition(paddlePos);
 		}
 
-		ball.move(velocity); //Constant movement of ball
+		ball.ballShape.move(ball.ballVelocity); //Moves the ball
 
-		//Check ball position x - flip to remain within window
-		if (ball.getPosition().x <= 0 || ball.getPosition().x >= (windowX-(ballSize*2)))
-		{
-			velocity.x = -velocity.x;
-		}
-		//Checks ball position y - flip to remain within window
-		if (ball.getPosition().y <= 0 || ball.getPosition().y >= (windowY-(ballSize*2)))
-		{
-			velocity.y = -velocity.y;
-		}
-
-		//Checks the bounds of ball against paddle - flip to 'bounce' off paddle
-		if (ball.getGlobalBounds().intersects(paddle.getGlobalBounds()))
-		{
-			velocity.y = -velocity.y;
-		}
+		
 
 		sf::Event event;
 		//Window Updating
@@ -115,10 +137,18 @@ int main()
 			}
 		}
 
+		//Clear window & re-draw images
 		window.clear();
-		window.draw(paddle);
-		window.draw(ball);
-		window.draw(livesText);
+		for (int i = 0; i < Bricks.size(); i++)
+		{
+			window.draw(Bricks[i].brickShape);
+		}
+		window.draw(top);
+		window.draw(bottom);
+		window.draw(left);
+		window.draw(right);
+		window.draw(paddle.paddleShape);
+		window.draw(ball.ballShape);
 		window.display();
 	}
 

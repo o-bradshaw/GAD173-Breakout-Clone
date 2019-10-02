@@ -1,8 +1,19 @@
 ﻿  Main.cpp
-C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Main.cpp(42,23): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Main.cpp(46,22): warning C4244:  '=': conversion from 'int' to 'T', possible loss of data
-C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Main.cpp(46,22): warning C4244:         with
-C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Main.cpp(46,22): warning C4244:         [
-C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Main.cpp(46,22): warning C4244:             T=float
-C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Main.cpp(46,22): warning C4244:         ]
-  Project.vcxproj -> C:\Users\octav\Documents\GAD173-Breakout-Clone\Project\Debug\Project.exe
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(23,35): warning C4244:  'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(23,22): warning C4244:  'argument': conversion from 'float' to 'unsigned int', possible loss of data
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(34,40): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(38,40): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(42,40): warning C4244:  'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(75,27): warning C4305:  '=': truncation from 'double' to 'T'
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(75,27): warning C4305:         with
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(75,27): warning C4305:         [
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(75,27): warning C4305:             T=float
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(75,27): warning C4305:         ]
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(76,27): warning C4305:  '=': truncation from 'double' to 'T'
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(76,27): warning C4305:         with
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(76,27): warning C4305:         [
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(76,27): warning C4305:             T=float
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(76,27): warning C4305:         ]
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(114,21): warning C4018:  '<': signed/unsigned mismatch
+C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Main.cpp(142,21): warning C4018:  '<': signed/unsigned mismatch
+  Project.vcxproj -> C:\Users\obradshaw\Documents\GAD173-Breakout-Clone\Project\Debug\Project.exe
