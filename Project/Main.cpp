@@ -12,6 +12,7 @@ int main()
 	{
 		return EXIT_FAILURE;
 	}
+
 	return myGame.Update();
 	return 0;
 }
@@ -87,8 +88,10 @@ int Game::Update()
 	ball.ballShape.setPosition(paddle.paddleShape.getPosition().x, paddle.paddleShape.getPosition().y - 75);
 	ball.ballShape.setFillColor(ball.ballColour);
 
-	ball.ballVelocity.x = 0.3;
-	ball.ballVelocity.y = 0.5;
+	//Have to keep changing because some computers makes this faster than others....
+	//Sorry if it's too slow, feel free to change :)
+	ball.ballVelocity.x = 0.07;
+	ball.ballVelocity.y = 0.1;
 
 	//Code runs while window is open
 	while (window.isOpen())
@@ -110,10 +113,14 @@ int Game::Update()
 		{
 			ball.Bounce(0);
 			lives--;
+			ball.ballShape.setPosition(ball.ballStartPos); //Set the ball to startPos when life lost
 			if (lives <= 0)
 			{
 				//End Game
 				gameOver = true; //Change to gameover state
+				//Set up string & position for Game Loss State
+				endGame.setString("GAME OVER");
+				endGame.setPosition(350, 200);
 			}
 		}
 		if (left.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()) || right.getGlobalBounds().intersects(ball.ballShape.getGlobalBounds()))
@@ -136,6 +143,14 @@ int Game::Update()
 				Bricks[i].brickShape.setPosition(1200, 0);
 				score ++;
 				ball.ballVelocity = ball.ballVelocity * 1.03f; //increasing speed of ball
+				if (score >= 30)
+				{
+					//Win Game
+					gameOver = true; //Change to gameover state
+					//Set up string & position for Game Win
+					endGame.setString("WINNER!");
+					endGame.setPosition(400, 200);
+				}
 			}
 		}
 
@@ -165,8 +180,6 @@ int Game::Update()
 		endGame.setFont(font);
 		endGame.setCharacterSize(50);
 		endGame.setFillColor(sf::Color::White);
-		endGame.setString("GAME OVER");
-		endGame.setPosition(350, 200);
 
 		//To close window setup
 		closeGame.setFont(font);
@@ -220,7 +233,7 @@ int Game::Update()
 			//Press space to close window
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 			{
-				return 1;
+				window.close();
 			}
 		}
 		window.display();

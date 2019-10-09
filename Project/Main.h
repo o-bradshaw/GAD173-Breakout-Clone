@@ -43,7 +43,7 @@ public:
 		}
 	}
 	sf::CircleShape ballShape;
-	sf::Vector2f ballStartPos;
+	sf::Vector2f ballStartPos = sf::Vector2f(1000 / 2, 600 - (600 / 4));
 	sf::Vector2f ballVelocity;
 	sf::Color ballColour = sf::Color::Red;
 	float ballRadius = 12.f;
