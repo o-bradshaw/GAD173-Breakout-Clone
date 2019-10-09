@@ -7,9 +7,7 @@ class Brick
 {
 public:
 	sf::RectangleShape brickShape;
-	sf::Color brickColour;
-	sf::Vector2f brickSize;
-	sf::Vector2f brickPos;
+	sf::Vector2f brickSize = sf::Vector2f(100, 50);
 };
 
 class Paddle
@@ -21,9 +19,8 @@ public:
 	}
 	float speed = 10.f;
 	sf::RectangleShape paddleShape;
-	sf::Color paddleColour;
-	sf::Vector2f paddleSize;
-	sf::Vector2f paddlePos;
+	sf::Color paddleColour = sf::Color::Blue;
+	sf::Vector2f paddleSize = sf::Vector2f(120.f, 15.f);
 };
 
 class Ball 
@@ -48,7 +45,8 @@ public:
 	sf::CircleShape ballShape;
 	sf::Vector2f ballStartPos;
 	sf::Vector2f ballVelocity;
-	float ballRadius = 10.f;
+	sf::Color ballColour = sf::Color::Red;
+	float ballRadius = 12.f;
 };
 
 class Game //Functions that run the game
@@ -63,7 +61,7 @@ private:
 	sf::RectangleShape bottom;
 	sf::RectangleShape left;
 	sf::RectangleShape right;
-	float windowWidth = 600;
+	float windowWidth = 1000;
 	float windowHeight = 600;
 	int score = 0;
 	int lives = 3;
